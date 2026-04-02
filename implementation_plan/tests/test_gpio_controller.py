@@ -13,7 +13,11 @@ from unittest.mock import MagicMock, call, patch
 
 import RPi.GPIO as _gpio_stub  # resolves to our stub from conftest
 
-from gpio_controller import GPIOController, ALL_GPIO_PINS, PWM_CAPABLE_PINS
+from implementation_plan.gpio_controller import (
+    ALL_GPIO_PINS,
+    GPIOController,
+    PWM_CAPABLE_PINS,
+)
 
 GPIO = _gpio_stub  # convenient alias
 _pwm_instance: MagicMock = GPIO.PWM.return_value

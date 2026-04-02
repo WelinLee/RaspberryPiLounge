@@ -13,8 +13,8 @@ from unittest.mock import MagicMock, patch
 
 import RPi.GPIO as _gpio_stub  # resolves to our stub from conftest
 
-from gpio_controller import GPIOController
-from gpio_test import (
+from implementation_plan.gpio_controller import GPIOController
+from implementation_plan.gpio_test import (
     parse_args,
     run_output_test,
     run_input_test,

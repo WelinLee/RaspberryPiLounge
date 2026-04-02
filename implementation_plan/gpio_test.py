@@ -14,11 +14,11 @@ Tests performed
 
 Usage
 -----
-    python gpio_test.py                # run all tests
-    python gpio_test.py --test output  # run only the output blink test
-    python gpio_test.py --test input   # run only the input read test
-    python gpio_test.py --test pwm     # run only the PWM test
-    python gpio_test.py --pins 17 27   # test only pins 17 and 27
+    python -m implementation_plan.gpio_test                # run all tests
+    python -m implementation_plan.gpio_test --test output  # run only the output blink test
+    python -m implementation_plan.gpio_test --test input   # run only the input read test
+    python -m implementation_plan.gpio_test --test pwm     # run only the PWM test
+    python -m implementation_plan.gpio_test --pins 17 27   # test only pins 17 and 27
 
 Requires RPi.GPIO (installed automatically on Raspberry Pi OS).
 Must be run as root or as a user in the 'gpio' group.
@@ -28,7 +28,11 @@ import argparse
 import sys
 import time
 
-from gpio_controller import GPIOController, ALL_GPIO_PINS, PWM_CAPABLE_PINS
+from implementation_plan.gpio_controller import (
+    ALL_GPIO_PINS,
+    GPIOController,
+    PWM_CAPABLE_PINS,
+)
 
 
 # ---------------------------------------------------------------------------
