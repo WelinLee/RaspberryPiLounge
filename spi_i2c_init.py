@@ -27,6 +27,7 @@ def initialize_spi(
     max_speed_hz: int = 500000,
     mode: int = 0,
 ) -> spidev.SpiDev:
+    """Open and configure SPI; the caller is responsible for closing it."""
     spi = spidev.SpiDev()
     spi.open(bus, device)
     spi.max_speed_hz = max_speed_hz
@@ -35,6 +36,7 @@ def initialize_spi(
 
 
 def initialize_i2c(bus: int = 1) -> SMBus:
+    """Open an IIC/I2C bus; the caller is responsible for closing it."""
     return SMBus(bus)
 
 
