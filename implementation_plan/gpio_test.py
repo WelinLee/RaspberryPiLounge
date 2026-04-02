@@ -83,8 +83,9 @@ def run_input_test(gpio: GPIOController, pins: list[int]) -> dict[int, str]:
     return results
 
 
-def run_pwm_test(gpio: GPIOController, pins: list[int],
-                 duration: float = 1.0) -> dict[int, str]:
+def run_pwm_test(
+    gpio: GPIOController, pins: list[int], duration: float = 1.0
+) -> dict[int, str]:
     """
     Run 1 kHz / 50 % PWM on each PWM-capable pin for *duration* seconds.
 
