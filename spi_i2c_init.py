@@ -27,12 +27,16 @@ def initialize_spi(
     max_speed_hz: int = 500000,
     mode: int = 0,
 ) -> spidev.SpiDev:
-    """Open and configure SPI; the caller is responsible for closing it."""
+    """Open and configure SPI, closing it if setup fails."""
     spi = spidev.SpiDev()
-    spi.open(bus, device)
-    spi.max_speed_hz = max_speed_hz
-    spi.mode = mode
-    return spi
+    try:
+        spi.open(bus, device)
+        spi.max_speed_hz = max_speed_hz
+        spi.mode = mode
+        return spi
+    except Exception:
+        spi.close()
+        raise
 
 
 def initialize_i2c(bus: int = 1) -> SMBus:
@@ -54,15 +58,17 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    spi = initialize_spi(
-        bus=args.spi_bus,
-        device=args.spi_device,
-        max_speed_hz=args.spi_speed,
-        mode=args.spi_mode,
-    )
-    i2c = initialize_i2c(bus=args.i2c_bus)
+    spi: spidev.SpiDev | None = None
+    i2c: SMBus | None = None
 
     try:
+        spi = initialize_spi(
+            bus=args.spi_bus,
+            device=args.spi_device,
+            max_speed_hz=args.spi_speed,
+            mode=args.spi_mode,
+        )
+        i2c = initialize_i2c(bus=args.i2c_bus)
         print(
             "SPI initialized on "
             f"bus={args.spi_bus}, device={args.spi_device}, "
@@ -70,8 +76,10 @@ def main() -> None:
         )
         print(f"IIC/I2C initialized on bus={args.i2c_bus}")
     finally:
-        spi.close()
-        i2c.close()
+        if spi is not None:
+            spi.close()
+        if i2c is not None:
+            i2c.close()
 
 
 if __name__ == "__main__":
