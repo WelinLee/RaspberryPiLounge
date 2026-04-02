@@ -27,7 +27,7 @@ def initialize_spi(
     max_speed_hz: int = 500000,
     mode: int = 0,
 ) -> spidev.SpiDev:
-    """Open and configure SPI, closing it if setup fails."""
+    """Open and configure SPI, closing it if setup fails; caller closes it after use."""
     spi = spidev.SpiDev()
     try:
         spi.open(bus, device)
