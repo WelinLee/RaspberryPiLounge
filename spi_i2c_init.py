@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-from typing import Protocol
 
 try:
     import spidev
@@ -22,11 +21,6 @@ except ImportError:
             "'sudo apt install python3-smbus'."
         ) from exc
 
-
-class SupportsClose(Protocol):
-    def close(self) -> None: ...
-
-
 def initialize_spi(
     bus: int = 0,
     device: int = 0,
@@ -42,10 +36,6 @@ def initialize_spi(
 
 def initialize_i2c(bus: int = 1) -> SMBus:
     return SMBus(bus)
-
-
-def close_connection(connection: SupportsClose) -> None:
-    connection.close()
 
 
 def parse_args() -> argparse.Namespace:
@@ -78,8 +68,8 @@ def main() -> None:
         )
         print(f"IIC/I2C initialized on bus={args.i2c_bus}")
     finally:
-        close_connection(spi)
-        close_connection(i2c)
+        spi.close()
+        i2c.close()
 
 
 if __name__ == "__main__":
